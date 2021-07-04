@@ -1,0 +1,41 @@
+<!--DEPENDENCIES (SET IN SERVER)-->
+<link rel="stylesheet" href="/vendors/fontawesome/css/all.min.css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  *:not(:defined) {
+    /* Pre-style, give layout, replicate eventual styles, etc. */
+    display: inline-block;
+    width: 100vw;
+    height: 44px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>
+
+<body style="background-color: #f7f7f7; padding: 0px; margin: 0px; height: 100vh" >
+  <ui-search index="1" results="10"></ui-search>
+</body>
+
+<script type="module" src="../element/controller.js"></script>
+<script>
+  let counter = 0;
+  let results = 10;
+  // Subscribe to custom events
+  const element = document.querySelector("ui-search");
+  element.index = counter;
+  element.results = results;
+
+  element.addEventListener("ui-search-next", function(e){
+    console.log("next event", e)
+    counter++;
+    element.setAttribute("index", counter);
+  })
+
+  element.addEventListener("ui-search-previous", function(e){
+    console.log("previous event", e)
+    counter--;
+    element.setAttribute("index", counter);
+  })
+</script>
