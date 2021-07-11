@@ -14,7 +14,9 @@
   }
 </style>
 
-<body style="background-color: #f7f7f7; padding: 0px; margin: 0px; height: 100vh" >
+<body
+  style="background-color: #f7f7f7; padding: 0px; margin: 0px; height: 100vh"
+>
   <ui-search index="1" results="10"></ui-search>
 </body>
 
@@ -27,15 +29,19 @@
   element.index = counter;
   element.results = results;
 
-  element.addEventListener("ui-search-next", function(e){
-    console.log("next event", e)
+  element.addEventListener("ui-search-query", function (e) {
+    console.log("query event", e);
+  });
+
+  element.addEventListener("ui-search-next", function (e) {
+    console.log("next event", e);
     counter++;
     element.setAttribute("index", counter);
-  })
+  });
 
-  element.addEventListener("ui-search-previous", function(e){
-    console.log("previous event", e)
+  element.addEventListener("ui-search-previous", function (e) {
+    console.log("previous event", e);
     counter--;
     element.setAttribute("index", counter);
-  })
+  });
 </script>

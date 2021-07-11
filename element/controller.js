@@ -62,6 +62,8 @@ class SearchViewController extends HTMLElement {
       this._onModeSelectChange.bind(this)
     );
 
+    this.view.inputSearch.addEventListener("keydown", this._onQuery.bind(this));
+
     this.view.prevSearchButton.addEventListener(
       "click",
       this._onPrev.bind(this)
@@ -95,7 +97,7 @@ class SearchViewController extends HTMLElement {
     this.state.connected = true;
 
     window.requestAnimationFrame((e) => {
-      this._updateView();
+      this.updateView();
     });
   }
 
@@ -110,12 +112,20 @@ class SearchViewController extends HTMLElement {
     };
   }
 
+  _onQuery() {
+    this.event.query = new CustomEvent("ui-search-query", {
+      detail: this._getEventDetail(),
+    });
+    this.dispatchEvent(this.event.query);
+    this.updateView();
+  }
+
   _onReplace() {
     this.event.replace = new CustomEvent("ui-search-replace", {
       detail: this._getEventDetail(),
     });
     this.dispatchEvent(this.event.replace);
-    this._updateView();
+    this.updateView();
   }
 
   _onReplaceAll() {
@@ -123,7 +133,7 @@ class SearchViewController extends HTMLElement {
       detail: this._getEventDetail,
     });
     this.dispatchEvent(this.event.replaceAll);
-    this._updateView();
+    this.updateView();
   }
 
   _onNext() {
@@ -131,7 +141,7 @@ class SearchViewController extends HTMLElement {
       detail: this._getEventDetail(),
     });
     this.dispatchEvent(this.event.next);
-    this._updateView();
+    this.updateView();
   }
 
   _onPrev() {
@@ -139,7 +149,7 @@ class SearchViewController extends HTMLElement {
       detail: this._getEventDetail(),
     });
     this.dispatchEvent(this.event.previous);
-    this._updateView();
+    this.updateView();
   }
 
   _updateTitle() {
@@ -195,7 +205,7 @@ class SearchViewController extends HTMLElement {
           `Attribute ${attrName} is not handled, you should probably do that`
         );
     }
-    this._updateView();
+    this.updateView();
   }
 
   get shadowRoot() {
@@ -205,7 +215,7 @@ class SearchViewController extends HTMLElement {
     this._shadowRoot = value;
   }
 
-  _updateView() {
+  updateView() {
     //No point in rendering if there isn't a model source, or a view on screen
     if (!this.state.connected) {
       return;
