@@ -1,6 +1,6 @@
 {
   "name": "ui-search",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A basic search custom element",
   "scripts": {
     "test": "./node_modules/http-server/bin/http-server"
@@ -9,10 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/JoseBarrios/ui-search.git"
   },
-  "keywords": [
-    "custom",
-    "search"
-  ],
+  "keywords": ["custom", "search"],
   "author": "JoseBarrios",
   "license": "UNLICENSED",
   "bugs": {

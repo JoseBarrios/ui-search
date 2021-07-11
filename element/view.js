@@ -1,8 +1,6 @@
 const template = document.createElement("template");
 
 template.innerHTML = `
-    <link rel="stylesheet" type="text/css" href="/vendors/fontawesome/css/all.css"/>
-
     <style>
         :host([hidden]) {
             display: none
@@ -32,8 +30,6 @@ template.innerHTML = `
 
         #title {
           font-family: var(--ui-search-font-family);
-          padding-top: 1%;
-          padding-bottom: 1%;
           text-align: center;
           width:100%;
         }
@@ -57,7 +53,7 @@ template.innerHTML = `
         }
 
         #inputReplace {
-          margin-left: calc(var(--select-mode-width) + 9px);
+          margin-left: calc(var(--select-mode-width) + 12px);
           width: var(--input-width);
         }
 
@@ -92,7 +88,7 @@ template.innerHTML = `
         }
 
         .empty-space {
-          margin-left:4px;
+          margin-left:5px;
           width: calc(25% - 1px);
           display: inline-block;
         }

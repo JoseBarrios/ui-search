@@ -104,25 +104,21 @@ class SearchViewController extends HTMLElement {
   }
 
   _onReplace() {
-    console.log("onReplace");
     this.dispatchEvent(this.event.replace);
     this._updateView();
   }
 
   _onReplaceAll() {
-    console.log("onReplaceAll");
     this.dispatchEvent(this.event.replaceAll);
     this._updateView();
   }
 
   _onNext() {
-    console.log("onNext");
     this.dispatchEvent(this.event.next);
     this._updateView();
   }
 
   _onPrev() {
-    console.log("onPrev");
     this.dispatchEvent(this.event.previous);
     this._updateView();
   }
@@ -165,7 +161,6 @@ class SearchViewController extends HTMLElement {
     switch (attrName) {
       case "index":
         const index = parseInt(newVal);
-        console.log(index > 0);
         this.index = index > 0 ? index : null;
         if (this.index) {
           this.index = this.index >= this.results ? this.results : index;
@@ -196,7 +191,8 @@ class SearchViewController extends HTMLElement {
       return;
     } else {
       this._updateTitle();
-      this._shouldHideReplaceUI();
+      const hideReplace = this.isFindMode();
+      this._shouldHideReplaceUI(hideReplace);
     }
   }
 
@@ -206,7 +202,7 @@ class SearchViewController extends HTMLElement {
   }
 
   _removeEvents() {
-    this.$container.removeEventListener("click", this.event.click);
+    // Remove events here
   }
 }
 
