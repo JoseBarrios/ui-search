@@ -16,7 +16,6 @@ class SearchViewController extends HTMLElement {
     this.results = null;
     this.shadowRoot = this.attachShadow({ mode: "open" });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-
     this.state.connected = false;
   }
 
@@ -26,6 +25,8 @@ class SearchViewController extends HTMLElement {
     this.view.title = this.shadowRoot.querySelector("#title");
 
     this.view.modeSelect = this.shadowRoot.querySelector("#modeSelect");
+
+    this.view.inputSearch = this.shadowRoot.querySelector("#inputSearch");
 
     this.view.inputReplace = this.shadowRoot.querySelector("#inputReplace");
 
@@ -91,34 +92,52 @@ class SearchViewController extends HTMLElement {
       this._onReplace.bind(this)
     );
 
-    // Custom events
-    this.event.previous = new CustomEvent("ui-search-previous");
-    this.event.next = new CustomEvent("ui-search-next");
-    this.event.replace = new CustomEvent("ui-search-replace");
-    this.event.replaceAll = new CustomEvent("ui-search-replace-all");
-
     this.state.connected = true;
+
     window.requestAnimationFrame((e) => {
       this._updateView();
     });
   }
 
+  _noEmptyString(value) {
+    return value === "" ? null : value;
+  }
+
+  _getEventDetail() {
+    return {
+      search: this._noEmptyString(this.view.inputSearch.value),
+      replace: this._noEmptyString(this.view.inputReplace.value),
+    };
+  }
+
   _onReplace() {
+    this.event.replace = new CustomEvent("ui-search-replace", {
+      detail: this._getEventDetail(),
+    });
     this.dispatchEvent(this.event.replace);
     this._updateView();
   }
 
   _onReplaceAll() {
+    this.event.replaceAll = new CustomEvent("ui-search-replace-all", {
+      detail: this._getEventDetail,
+    });
     this.dispatchEvent(this.event.replaceAll);
     this._updateView();
   }
 
   _onNext() {
+    this.event.next = new CustomEvent("ui-search-next", {
+      detail: this._getEventDetail(),
+    });
     this.dispatchEvent(this.event.next);
     this._updateView();
   }
 
   _onPrev() {
+    this.event.previous = new CustomEvent("ui-search-previous", {
+      detail: this._getEventDetail(),
+    });
     this.dispatchEvent(this.event.previous);
     this._updateView();
   }
@@ -142,6 +161,7 @@ class SearchViewController extends HTMLElement {
     const mode = this.view.modeSelect.value;
     if (this.isFindMode()) {
       this._shouldHideReplaceUI();
+      this.view.inputReplace.value = "";
     } else {
       this._shouldHideReplaceUI(false);
     }

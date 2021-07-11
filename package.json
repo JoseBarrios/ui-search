@@ -1,6 +1,6 @@
 {
   "name": "ui-search",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A basic search custom element",
   "scripts": {
     "test": "./node_modules/http-server/bin/http-server"
