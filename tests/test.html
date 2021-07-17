@@ -44,4 +44,12 @@
     counter--;
     element.setAttribute("index", counter);
   });
+
+  element.addEventListener("ui-search-replace", function (e) {
+    console.log("replace event", e);
+  });
+
+  element.addEventListener("ui-search-replace-all", function (e) {
+    console.log("replace all event", e);
+  });
 </script>

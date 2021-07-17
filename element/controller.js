@@ -28,19 +28,17 @@ class SearchViewController extends HTMLElement {
 
     this.view.inputSearch = this.shadowRoot.querySelector("#inputSearch");
 
+    this.view.findButton = this.shadowRoot.querySelector("#findButton");
+
+    this.view.replaceRow = this.shadowRoot.querySelector("#replaceRow");
+
     this.view.inputReplace = this.shadowRoot.querySelector("#inputReplace");
 
-    this.view.replaceButtonDiv = this.shadowRoot.querySelector(
-      "#replaceButtonDiv"
-    );
+    this.view.buttonDiv = this.shadowRoot.querySelector("#buttonDiv");
 
-    this.view.prevSearchButton = this.shadowRoot.querySelector(
-      "#prevSearchButton"
-    );
+    this.view.prevButton = this.shadowRoot.querySelector("#prevButton");
 
-    this.view.nextSearchButton = this.shadowRoot.querySelector(
-      "#nextSearchButton"
-    );
+    this.view.nextButton = this.shadowRoot.querySelector("#nextButton");
 
     this.view.replaceAllButton = this.shadowRoot.querySelector(
       "#replaceAllButton"
@@ -48,41 +46,17 @@ class SearchViewController extends HTMLElement {
 
     this.view.replaceButton = this.shadowRoot.querySelector("#replaceButton");
 
-    this.view.prevReplaceButton = this.shadowRoot.querySelector(
-      "#prevReplaceButton"
-    );
-
-    this.view.nextReplaceButton = this.shadowRoot.querySelector(
-      "#nextReplaceButton"
-    );
-
     // Add event listeners
     this.view.modeSelect.addEventListener(
       "change",
       this._onModeSelectChange.bind(this)
     );
 
-    this.view.inputSearch.addEventListener("keydown", this._onQuery.bind(this));
+    this.view.findButton.addEventListener("click", this._onQuery.bind(this));
 
-    this.view.prevSearchButton.addEventListener(
-      "click",
-      this._onPrev.bind(this)
-    );
+    this.view.prevButton.addEventListener("click", this._onPrev.bind(this));
 
-    this.view.prevReplaceButton.addEventListener(
-      "click",
-      this._onPrev.bind(this)
-    );
-
-    this.view.nextSearchButton.addEventListener(
-      "click",
-      this._onNext.bind(this)
-    );
-
-    this.view.nextReplaceButton.addEventListener(
-      "click",
-      this._onNext.bind(this)
-    );
+    this.view.nextButton.addEventListener("click", this._onNext.bind(this));
 
     this.view.replaceAllButton.addEventListener(
       "click",
@@ -107,47 +81,51 @@ class SearchViewController extends HTMLElement {
 
   _getEventDetail() {
     return {
-      search: this._noEmptyString(this.view.inputSearch.value),
-      replace: this._noEmptyString(this.view.inputReplace.value),
+      detail: {
+        search: this._noEmptyString(this.view.inputSearch.value),
+        replace: this._noEmptyString(this.view.inputReplace.value),
+      },
     };
   }
 
   _onQuery() {
-    this.event.query = new CustomEvent("ui-search-query", {
-      detail: this._getEventDetail(),
-    });
+    this.event.query = new CustomEvent(
+      "ui-search-query",
+      this._getEventDetail()
+    );
     this.dispatchEvent(this.event.query);
     this.updateView();
   }
 
   _onReplace() {
-    this.event.replace = new CustomEvent("ui-search-replace", {
-      detail: this._getEventDetail(),
-    });
+    this.event.replace = new CustomEvent(
+      "ui-search-replace",
+      this._getEventDetail()
+    );
     this.dispatchEvent(this.event.replace);
     this.updateView();
   }
 
   _onReplaceAll() {
-    this.event.replaceAll = new CustomEvent("ui-search-replace-all", {
-      detail: this._getEventDetail,
-    });
+    this.event.replaceAll = new CustomEvent(
+      "ui-search-replace-all",
+      this._getEventDetail()
+    );
     this.dispatchEvent(this.event.replaceAll);
     this.updateView();
   }
 
   _onNext() {
-    this.event.next = new CustomEvent("ui-search-next", {
-      detail: this._getEventDetail(),
-    });
+    this.event.next = new CustomEvent("ui-search-next", this._getEventDetail());
     this.dispatchEvent(this.event.next);
     this.updateView();
   }
 
   _onPrev() {
-    this.event.previous = new CustomEvent("ui-search-previous", {
-      detail: this._getEventDetail(),
-    });
+    this.event.previous = new CustomEvent(
+      "ui-search-previous",
+      this._getEventDetail()
+    );
     this.dispatchEvent(this.event.previous);
     this.updateView();
   }
@@ -179,12 +157,18 @@ class SearchViewController extends HTMLElement {
   }
 
   _shouldHideReplaceUI(shouldHide = true) {
+    this.view.replaceRow.hidden = shouldHide;
     this.view.inputReplace.hidden = shouldHide;
-    this.view.replaceButtonDiv.hidden = shouldHide;
-    // Hide prev and next search buttons, since replace
-    // has its own buttons
-    this.view.prevSearchButton.hidden = !shouldHide;
-    this.view.nextSearchButton.hidden = !shouldHide;
+    this.view.findButton.hidden = !shouldHide;
+
+    this.view.replaceButton.style.visibility = shouldHide
+      ? "hidden"
+      : "visible";
+
+    // Replace ALL
+    this.view.replaceAllButton.style.visibility = shouldHide
+      ? "hidden"
+      : "visible";
   }
 
   attributeChangedCallback(attrName, oldVal, newVal) {

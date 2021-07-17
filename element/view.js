@@ -17,10 +17,11 @@ template.innerHTML = `
             supported by Chrome and Opera */
 
             --select-mode-width:25%;
-            --input-width:56%;
-            --nav-buttons-width:15%;
-            --replace-button-width:calc(var(--input-width)/2);
-            --replace-all-button-width:calc(var(--input-width)/2);
+            --input-width:72%;
+            --nav-buttons-width:calc(var(--input-width)/4 - 10px);
+            --find-button-width:calc(var(--input-width)/4);
+            --replace-button-width:calc(var(--input-width)/4);
+            --replace-all-button-width:calc(var(--input-width)/4);
         }
 
         #elementContainer {
@@ -43,30 +44,35 @@ template.innerHTML = `
           margin-left:1%;
         }
 
-        #inputSearch {
-          width: var(--input-width);
-        }
-
         #replaceContainer {
           margin-top:10px;
           width: 100%;
         }
 
         #inputReplace {
-          margin-left: calc(var(--select-mode-width) + 12px);
-          width: var(--input-width);
+          margin-top: 10px;
+          width: calc(var(--input-width) - 10px);
+        }
+
+        #inputSearch {
+          width: calc(var(--input-width) - 10px);
         }
 
         #replaceButtonDiv {
-          margin-top:2%;
           width: 100%;
         }
 
+        #findButton {
+          width: var(--find-button-width);
+        }
+
         #replaceAllButton {
+          visibility: hidden;
           width: var(--replace-all-button-width);
         }
 
         #replaceButton {
+          visibility: hidden;
           width: var(--replace-button-width);
         }
 
@@ -88,10 +94,11 @@ template.innerHTML = `
         }
 
         .empty-space {
-          margin-left:5px;
-          width: calc(25% - 1px);
+          width: var(--select-mode-width);
+          margin-left:1%;
           display: inline-block;
         }
+
 	</style>
 
 
@@ -103,20 +110,18 @@ template.innerHTML = `
         <option>Find & Replace</option>
       </select>
       <input type="search" id="inputSearch" placeholder="Find">
-      <div class="nav-button-container">
-        <button id="prevSearchButton" class="prev-button"> < </button>
-        <button id="nextSearchButton" class="next-button"> > </button>
+      <div id="replaceRow">
+        <div class="empty-space">&nbsp;</div>
+        <input type="search" id="inputReplace" placeholder="Replace">
       </div>
-	  </div>
-    <div id="replaceContainer">
-      <input type="search" id="inputReplace" placeholder="Replace">
-      <div id="replaceButtonDiv">
+      <div id="buttonDiv">
         <div class="empty-space">&nbsp;</div>
         <button id="replaceAllButton" class="replace-all"> Replace all </button>
         <button id="replaceButton" class="replace"> Replace </button>
-        <div class="nav-button-container">
-          <button id="prevReplaceButton" class="prev-button"> < </button>
-          <button id="nextReplaceButton" class="next-button"> > </button>
+        <button id="findButton" class="find"> Find </button>
+        <span class="nav-button-container">
+          <button id="prevButton" class="prev-button"> < </button>
+          <button id="nextButton" class="next-button"> > </button>
         </div>
       </div>
     </div>
