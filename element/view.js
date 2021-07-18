@@ -35,10 +35,13 @@ template.innerHTML = `
           font-family: var(--ui-search-font-family);
           text-align: center;
           width:100%;
+          margin-top:0;
         }
 
         #searchContainer {
           width: 100%;
+          padding:0;
+          margin:0;
         }
 
         #modeSelect {
