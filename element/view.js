@@ -8,6 +8,7 @@ template.innerHTML = `
 
         :host {
             --ui-search-font-family: 'Roboto', sans-serif;
+            --ui-search-background-color:white;
             -webkit-touch-callout: none; /* iOS Safari */
             -webkit-user-select: none; /* Safari */
             -khtml-user-select: none; /* Konqueror HTML */
@@ -25,6 +26,7 @@ template.innerHTML = `
         }
 
         #elementContainer {
+          background-color: var(--ui-search-background-color);
           height:100%;
           width:100%;
         }
